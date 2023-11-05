@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>登入</title>
+</head>
+<body>
+    <h1>帳號操作</h1>
+    <h2>修改密碼</h2>
+    <form id="changepw">
+        <label>用户名: <input type="text" id="Username_change" required></label>
+        <label>密码: <input type="password" id="Password_change" required></label>
+        <button type="submit">修改密碼</button>
+        <div id="response_changepw"></div>
+    </form>
+
+    <h2>刪除帳號</h2>
+    <form id="deleteuser">
+        <label>用户名: <input type="text" id="Username_del" required></label>
+        <label>密码: <input type="password" id="Password_del" required></label>
+        <button type="submit">刪除帳號</button>
+        <div id="response_deluser"></div>
+    </form>
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

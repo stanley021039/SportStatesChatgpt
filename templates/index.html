@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+    <title>隊伍戰績查詢</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+</head>
+<body>
+    <h1>戰績</h1>
+    <div id="score-container">
+        <p id="wins">勝場：</p>
+        <p id="losses">敗場：</p>
+    </div>
+    <input type="text" id="userInput" placeholder="输入隊名">
+    <button onclick="searchTeam()">搜尋戰績</button>
+    <div id="result"></div>
+    <script src="/static/js/script.js"></script>
+
+    <h1>聊天</h1>
+    <div id="chat-container">
+        <p>您的問題：</p>
+        <input type="text" id="textInput">
+        <br><br>
+        <button onclick="chat_with_gpt()">聊天</button>
+        <div id="response"></div>
+        <script src="/static/js/script.js"></script>
+    </div>
+    <a href="Standings" class="btn btn-primary">戰績表</a>
+
+    <a href="login" class="btn btn-primary">登錄</a>
+
+    <a href="register" class="btn btn-primary">註冊</a>
+
+</body>
+</html>
