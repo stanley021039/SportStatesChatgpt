@@ -52,3 +52,17 @@ button {
 #error-message {
     color: red;
 }
+
+.user-info {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgb(56, 56, 56);
+    color: #fff;
+    padding: 10px;
+    border-radius: 0 0 10px 0;
+  }
+  
+  .user-name {
+    font-weight: bold;
+  }

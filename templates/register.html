@@ -10,6 +10,11 @@
     <form id="createUserForm">
         <label>用户名: <input type="text" id="newUsername" required></label>
         <label>密码: <input type="password" id="newPassword" required></label>
+        <label for="sex">性別</label>
+        <select id="sex" name="sex">
+            <option value="male">male</option>
+            <option value="female">female</option>
+        </select>
         <button type="submit">创建用户</button>
         <div id="response_createUser"></div>
     </form>

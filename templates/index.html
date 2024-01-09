@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>隊伍戰績查詢</title>
-    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/index.css">
 </head>
 <body>
     <h1>戰績</h1>
@@ -14,22 +14,27 @@
     <input type="text" id="userInput" placeholder="输入隊名">
     <button onclick="searchTeam()">搜尋戰績</button>
     <div id="result"></div>
-    <script src="/static/js/script.js"></script>
 
     <h1>聊天</h1>
     <div id="chat-container">
         <p>您的問題：</p>
-        <input type="text" id="textInput">
+        <input type="text" id="textInput" placeholder="ex:今天有哪些勝利的球隊?哪些隊伍正在進行比賽?">
         <br><br>
         <button onclick="chat_with_gpt()">聊天</button>
         <div id="response"></div>
-        <script src="/static/js/script.js"></script>
     </div>
-    <a href="Standings" class="btn btn-primary">戰績表</a>
+    <div class="user-info">
+        <span class="user-name">未登入</span>
+    </div>
+    <a href="NBA/Standings" class="btn btn-primary">戰績表</a>
+    <a href="NBA/Today_scoreboard" class="btn btn-primary">今日比賽</a>
 
     <a href="login" class="btn btn-primary">登錄</a>
 
     <a href="register" class="btn btn-primary">註冊</a>
+
+    <a href="userinfo" class="btn btn-primary">用戶查詢</a>
+    <script src="/static/js/script.js"></script>
 
 </body>
 </html>
