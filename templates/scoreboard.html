@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+    <title>NBA比賽結果</title>
+    <link rel="stylesheet" type="text/css" href="{{ APPLICATION_ROOT }}/static/css/scoreboard.css">
+</head>
+<body>
+    <div class="sidebar">
+        <a href="{{ APPLICATION_ROOT }}">專案首頁</a>
+        <a href="{{ APPLICATION_ROOT }}/NBA/Standings">賽季戰績</a>
+        <a href="{{ APPLICATION_ROOT }}/NBA/scoreboard">比賽結果</a>
+        <a href="https://www.hd0619-info.site/">個人檔案首頁</a>
+    </div>
+    <div class="content">
+        <h1>NBA比賽結果</h1>
+        <div class="user-info">
+            <span class="user-name">未登入</span>
+        </div>
+        <div class="date-switch">
+            <button id="prev-date">前一天</button>
+            <span id="current-date">{{ current_date }}</span>
+            <button id="next-date">後一天</button>
+        </div>
+        <table id="scoreboard-table">
+            <tr>
+                {% for column in column_names %}
+                <th>{{ column }}</th>
+                {% endfor %}
+            </tr>
+            {% for row in data %}
+            <tr>
+                {% for cell in row %}
+                <td>{{ cell }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="chat-container">
+            <div class="chat-window" id="chat-window"></div>
+            <div class="input-container">
+                <input type="text" id="message-input" placeholder="今天有哪些獲勝的球隊?">
+                <span id="send-message">發送</span>
+                <!-- <button onclick="chatWithGPT()">發送</button> -->
+                <div id="response"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var applicationRoot = "{{ APPLICATION_ROOT }}";
+        var todatestring = "{{ todate }}";
+        var currentDate = new Date(todatestring);
+    </script>
+    <script src="{{ APPLICATION_ROOT }}/static/js/scoreboard.js"></script>
+</body>
+</html>

@@ -1,13 +1,114 @@
+/* Reset some default styles */
+body, h1, p, table {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
 .user-info {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
-    border-radius: 0 0 10px 0;
-  }
-  
-  .user-name {
-    font-weight: bold;
-  }
+  text-align: right;
+  padding: 10px;
+  background-color: #ddd;
+}
+
+.season-switch {
+  text-align: center;
+  margin: 10px 0;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+#standingboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+
+.sortable-header .sort-icon {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-right: 6px;
+  vertical-align: text-top;
+}
+
+.sortable-header[data-sort="asc"] .sort-icon::before {
+  content: "▲";
+  color: #0a0303; /* 根据需要调整颜色 */
+}
+
+.sortable-header[data-sort="desc"] .sort-icon::before {
+  content: "▼";
+  color: #0a0303; /* 根据需要调整颜色 */
+}
+
+/* 当 data-sort 为空时显示横槓 */
+.sortable-header[data-sort=""] .sort-icon::before {
+  content: "-";
+  color: #0a0303; /* 根据需要调整颜色 */
+}
+
+.sidebar {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidebar a {
+  padding: 16px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #818181;
+  display: block;
+}
+
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+.content {
+  margin-left: 200px; /* 根据你的导航栏宽度调整这个值 */
+  padding: 16px;
+}

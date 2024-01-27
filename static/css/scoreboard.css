@@ -1,0 +1,138 @@
+/* CSS样式表: static/css/today_scoreboard.css */
+
+/* 基本样式 */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  color: #333;
+}
+
+/* 用户信息 */
+.user-info {
+  margin-bottom: 10px;
+}
+
+.user-name {
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* 日期切换 */
+.date-switch {
+  margin-bottom: 15px;
+}
+
+#prev-date,
+#next-date {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+#current-date {
+  margin: 0 10px;
+  font-weight: bold;
+}
+
+/* 表格样式 */
+#scoreboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+#scoreboard-table th, #scoreboard-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#scoreboard-table th {
+  background-color: #007bff;
+  color: #fff;
+}
+
+#scoreboard-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#scoreboard-table tr:hover {
+  background-color: #ddd;
+}
+
+.sidebar {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidebar a {
+  padding: 16px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #818181;
+  display: block;
+}
+
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+.content {
+  margin-left: 200px; /* 根据你的导航栏宽度调整这个值 */
+  padding: 16px;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.chat-container {
+  max-width: 600px;
+  margin: 50px auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.chat-window {
+  height: 300px;
+  overflow-y: scroll;
+  padding: 10px;
+  background-color: #f8f8f8;
+}
+
+.input-container {
+  display: flex;
+  padding: 10px;
+}
+
+input {
+  flex: 1;
+  padding: 8px;
+  margin-right: 10px;
+}
+
+button {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

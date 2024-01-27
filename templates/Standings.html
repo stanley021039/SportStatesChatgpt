@@ -2,28 +2,41 @@
 <meta charset="UTF-8">
 <html>
 <head>
-    <title>NBA戰績表</title>
-    <link rel="stylesheet" type="text/css" href="/static/css/Standings.css">
+    <title>NBA賽季戰績</title>
+    <link rel="stylesheet" type="text/css" href="{{ APPLICATION_ROOT }}/static/css/Standings.css">
 </head>
 <body>
-    <h1>戰績表</h1>
-    <div class="user-info">
-        <span class="user-name">未登入</span>
+    <div class="sidebar">
+        <a href="{{ APPLICATION_ROOT }}">專案首頁</a>
+        <a href="{{ APPLICATION_ROOT }}/NBA/Standings">賽季戰績</a>
+        <a href="{{ APPLICATION_ROOT }}/NBA/scoreboard">比賽結果</a>
+        <a href="https://www.hd0619-info.site/">個人檔案首頁</a>
     </div>
-    <table>
-        <tr>
-            {% for column in column_names %}
-            <th>{{ column }}</th>
-            {% endfor %}
-        </tr>
-        {% for row in data %}
-        <tr>
-            {% for cell in row %}
-            <td>{{ cell }}</td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
-    <script src="/static/js/script.js"></script>
+    <div class="content">
+        <h1>賽季戰績</h1>
+        <div class="user-info">
+            <span class="user-name">未登入</span>
+        </div>
+        <div class="season-switch">
+            <button id="prev-season">前一賽季</button>
+            <span id="current-season"></span>
+            <button id="next-season">後一賽季</button>
+        </div>
+        <table id="standingboard-table">
+            <tr>
+                <th class="sortable-header" data-column="team" data-sort="">球隊 <span class="sort-icon"></span></th>
+                <th class="sortable-header" data-column="wins" data-sort="">勝場 <span class="sort-icon"></span></th>
+                <th class="sortable-header" data-column="win-percentage" data-sort="">勝率 <span class="sort-icon"></span></th>
+                <th class="sortable-header" data-column="losses" data-sort="">敗場 <span class="sort-icon"></span></th>
+                <th class="sortable-header" data-column="loss-percentage" data-sort="">敗率 <span class="sort-icon"></span></th>
+            </tr>
+        </table>
+    </div>
+    <script>
+        var applicationRoot = "{{ APPLICATION_ROOT }}";
+        var seasontring = "{{ season }}";
+        var currentSeason = new Date(seasontring);
+    </script>
+    <script src="{{ APPLICATION_ROOT }}/static/js/standings.js"></script>
 </body>
 </html>

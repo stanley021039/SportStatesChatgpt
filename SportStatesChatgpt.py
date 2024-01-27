@@ -9,13 +9,18 @@ import openai
 import json
 from datetime import datetime, timezone, timedelta
 import pytz
-from utils import html_request2db_NBA_standings, html_request2db_NBA_today_scoreboard, generate_token, chech_login
+from utils import html_request2db_NBA_standings, html_request2db_NBA_today_scoreboard, generate_token, chech_login, get_date
 
 app=Flask(__name__)
 app.config['SECRET_KEY'] = 'w8eg4as21dg56f'
 api = Api(app)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-logging.basicConfig(level=logging.DEBUG, filename=os.path.join(BASE_DIR, "app.log"), filemode='w')
+logging.basicConfig(level=logging.DEBUG, filename=os.path.join(BASE_DIR, "logs", "app.log"), filemode='w')
+
+@app.before_request
+def set_application_root():
+    script_name = request.headers.get('X-Script-Name', '')
+    app.config['APPLICATION_ROOT'] = script_name
 
 @app.route('/ID_verify', methods=['GET'])
 def ID_verify():
@@ -27,88 +32,36 @@ def ID_verify():
 
 class homeResource(Resource):
     def get(self):
-        return make_response(render_template('index.html'))
-
+        template_variables = {'APPLICATION_ROOT': app.config['APPLICATION_ROOT']}
+        return make_response(render_template('index.html', **template_variables))
 api.add_resource(homeResource, "/")
 
-db_path = os.path.join(BASE_DIR, "standings.db")
-@app.route('/get_score', methods=['POST'])
-def get_score():
-    try:
-        html_request2db_NBA_standings(db_path)
-        # 連接到 SQLite 資料庫
-        json_input = request.get_json()
-        team_input = json_input['text']
-        conn = sqlite3.connect(db_path)
-        cursor = conn.cursor()
-        logging.info('team_input:')
-        logging.info(team_input)
-        # 執行 SQL 查詢以獲取比分資訊
-        cursor.execute('SELECT WINS, LOSSES FROM Standings WHERE TeamSlug = ?', (team_input,))
-        row = cursor.fetchone()
-
-        if row:
-            wins, losses = row
-            score_data = {'wins': wins, 'losses': losses}
-            logging.info('no error')
-            return jsonify(score_data)
-        else:
-            logging.info('error')
-            return jsonify({'error': '未找到比分記錄'})
-
-    except Exception as e:
-        logging.info('Exception')
-        return jsonify({'error': str(e)})
-    finally:
-        conn.close()
-
-class chatGPTResource(Resource):
+class GPTResource(Resource):
     def __init__(self):
-        self.db_score_path = os.path.join(BASE_DIR, "databases/scoreboard.db")
-        self.template_path = os.path.join(BASE_DIR, "gpt_sys_prompt/template.json")
-        self.cache_path = os.path.join(BASE_DIR, "gpt_sys_prompt/cache.json")
-        api_key = open(os.path.join(BASE_DIR, 'resource/ChatGPT_api_key.txt')).read()
-        openai.api_key = api_key
-        openai.organization = "org-J0PWE1RbQlGThBFfHT3iYmgO"
-    def cread_template_prompt(self):
-        current_time = self.get_time()
-        # table_name = "NBA_" + current_time.replace("-", "_")
-        table_name = 'NBA_2023_11_09'
-        conn = sqlite3.connect(self.db_score_path)
-        cursor = conn.cursor()
-        headers = "gameStatus, gameStatusText, homeTeamName, homeTeamScore, awayTeamScore, awayTeamName"
-        cursor.execute(f"SELECT {headers} FROM {table_name}")
-        rows = cursor.fetchall()
-        conn.close()
-        template_message = [{"role": "system", "content": "You are a helpful assistant of a sports score Website."}]
-        formatted_data = '\n'.join([', '.join(map(str, row))+'\n' for row in rows]) + "\n"
-        formatted_data = f'\n表格名稱{table_name}\n' + headers + formatted_data
-        database_message = {"role": "user", "content": formatted_data}
-        template_message.append(database_message)
-        with open(self.template_path, 'w') as file:
-            json.dump(template_message, file)
+        self.db_scoreboard_path = os.path.join(BASE_DIR, "data/databases/scoreboard.db")
+        self.db_standings_path = os.path.join(BASE_DIR, "data/databases/Standings.db")
+        self.template_path = os.path.join(BASE_DIR, "GPT_resources/template.json")
+    
     def load_prompts(self):
-        if os.path.exists(self.cache_path) and os.path.getsize(self.cache_path) != 0:
-            with open(self.cache_path, 'r') as file:
-                self.messages = json.load(file)
-        else:
-            self.cread_template_prompt()
-            with open(self.template_path, 'r') as file:
-                self.messages = json.load(file)
-    def get_time(self, format="%Y-%m-%d"):
-        eastern = pytz.timezone('US/Eastern')
-        now_utc = datetime.now(timezone.utc)
-        now_eastern = now_utc.astimezone(eastern)
-        formatted_date = now_eastern.strftime(format)
-        return formatted_date
-    def post(self):
-        input_prompt = request.get_json()['text']
-        self.load_prompts()
-        current_time = self.get_time()
-        prompt = "今天是" + current_time + "\n" + input_prompt + "\n用繁體中文回答"
-        user_messages = {"role": "user", "content": prompt}
-        self.messages.append(user_messages)
+        with open(self.template_path, 'r') as file:
+            self.messages = json.load(file)
 
+    def post(self):
+        frontpage = request.args.get('frontpage', '')
+        season = request.args.get('season', '')
+        date = request.args.get('date', '')
+        if frontpage == 'scoreboard':
+            with open(os.path.join(BASE_DIR, f"data/data_json/scoreboard_{date}.json"), 'r') as file:
+                data_prompt = json.dumps(json.load(file))
+                print(data_prompt[:10])
+        elif frontpage == 'standings':
+            with open(os.path.join(BASE_DIR, f"data/data_json/standings_{season}.json"), 'r') as file:
+                data_prompt = json.dumps(json.load(file))
+        user_prompt = request.get_json()['text']
+        self.load_prompts()
+        end_prompt = "但請用繁體中文回答，請用30字內的簡答\n"
+        user_messages = {"role": "user", "content": f'{data_prompt}\n{user_prompt}\n{end_prompt}'}
+        self.messages.append(user_messages)
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=self.messages,
@@ -118,11 +71,9 @@ class chatGPTResource(Resource):
         text_response = response.choices[0].message.content
         self.messages.append({"role": "assistant", "content": text_response})
 
-        with open(self.cache_path, "w") as file:
-            json.dump(self.messages, file)
         return jsonify({"response": text_response})
 
-api.add_resource(chatGPTResource, "/chat")
+api.add_resource(GPTResource, f"{app.config['APPLICATION_ROOT']}/GPT")
 
 @app.route('/register')
 def register_page():
@@ -140,36 +91,75 @@ def useraction_page():
 def userinfo_page():
     return render_template('userinfo.html')
 
-class StandingsResource(Resource):
-    def __init__(self):
-        self.db_path = os.path.join(BASE_DIR, "databases/Standings.db")
+
+def get_standings_data(season):
+    season_start = datetime(year=int(season), month=6, day=1)
+    if datetime.now() < season_start:
+        return {'data': []}
+    db_path = os.path.join(BASE_DIR, "data/databases/Standings.db")
+    json_path = os.path.join(BASE_DIR, f"data/data_json/standings_{season}.json")
+    html_request2db_NBA_standings(db_path=db_path, json_path=json_path, season=season)
+    table_name = f'season_{season}'
+    print(f'get standings of season {season} from {db_path}, {table_name}')
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    cursor.execute(f'SELECT team_name, wins, win_percentage, losses, loss_percentage FROM {table_name}')
+    data = cursor.fetchall()
+    conn.close()
+
+    return {'data': data}
+
+class StandingsPage(Resource):
     def get(self):
-        html_request2db_NBA_standings(db_path=self.db_path)
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-        cursor.execute('SELECT TeamCity, TeamName, WINS, LOSSES FROM Standings')
-        data = cursor.fetchall()
-        column_names = [description[0] for description in cursor.description]
-        conn.close()
-        return make_response(render_template('Standings.html', data=data, column_names=column_names))
+        season = str(int(get_date("%Y")) - 1)
+        # data = get_standings_data(season)
+        # print(data)
+        return make_response(render_template('Standings.html', season=season, **app.config))
 
-api.add_resource(StandingsResource, "/NBA/Standings")
-
-class Today_scoreboardResource(Resource):
-    def __init__(self):
-        self.db_path = os.path.join(BASE_DIR, "databases/scoreboard.db")
+class StandingsData(Resource):
     def get(self):
-        table_name_today = html_request2db_NBA_today_scoreboard(db_path=self.db_path)
-        # 连接到SQLite数据库
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-        cursor.execute(f'SELECT gameStatus, gameStatusText, homeTeamName, homeTeamScore, awayTeamScore, awayTeamName FROM {table_name_today}')
-        data = cursor.fetchall()
-        column_names = [description[0] for description in cursor.description]
-        conn.close()
-        return make_response(render_template('today_scoreboard.html', data=data, column_names=column_names))
+        season = request.args.get('season', '2023')
+        data = get_standings_data(season)
+        return jsonify(data)
 
-api.add_resource(Today_scoreboardResource, "/NBA/Today_scoreboard")
+api.add_resource(StandingsPage, f"{app.config['APPLICATION_ROOT']}/NBA/Standings")
+api.add_resource(StandingsData, f"{app.config['APPLICATION_ROOT']}/api/NBA/Standings_season_data")
+
+
+def get_scoreboard_data(date):
+    column_names = ['Game Status', 'Home Team', 'Score(Home)', 'Score(Away)', 'Away Team']
+    year, month, day = date.split('-')
+    date_start = datetime(year=int(year), month=int(month), day=int(day))
+    if datetime.now() < date_start:
+        return {'data': [], 'column_names': column_names}
+    db_path = os.path.join(BASE_DIR, "data/databases/scoreboard.db")
+    json_path = os.path.join(BASE_DIR, f"data/data_json/scoreboard_{date}.json")
+    html_request2db_NBA_today_scoreboard(db_path=db_path, json_path=json_path, date=date)
+    table_name = f"NBA_{date.replace('-', '_')}"
+    print(f'get score board of {date} from {db_path}, {table_name}')
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    cursor.execute(f'SELECT gameStatusText, homeTeamName, homeTeamScore, awayTeamScore, awayTeamName FROM {table_name}')
+    data = cursor.fetchall()
+    conn.close()
+
+    return {'data': data, 'column_names': column_names}
+
+class TodayScoreboardPage(Resource):
+    def get(self):
+        date = get_date()
+        # data = get_scoreboard_data(date)
+        return make_response(render_template('scoreboard.html', todate=date, **app.config))
+
+class TodayScoreboardData(Resource):
+    def get(self):
+        date = request.args.get('date', '2024-01-19')
+        data = get_scoreboard_data(date)
+        return jsonify(data)
+
+api.add_resource(TodayScoreboardPage, f"{app.config['APPLICATION_ROOT']}/NBA/scoreboard")
+api.add_resource(TodayScoreboardData, f"{app.config['APPLICATION_ROOT']}/api/NBA/scoreboard_data")
+
 
 class UserResource(Resource):
     def __init__(self):
@@ -307,6 +297,7 @@ api.add_resource(LoginResource, "/user/login")
 
 
 if __name__ == '__main__':
-   api_key = open('resource/ChatGPT_api_key.txt').read()
+   api_key = open('GPT_resources/ChatGPT_api_key.txt').read()
    openai.api_key = api_key
-   app.run()
+   openai.organization = "org-J0PWE1RbQlGThBFfHT3iYmgO"
+   app.run(host='0.0.0.0', port=8000)
