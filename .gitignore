@@ -1,1 +1,4 @@
-resource\ChatGPT_api_key.txt
+GPT_resources/ChatGPT_api_key.txt
+logs/*
+.venv
+__pycache__
