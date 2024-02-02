@@ -4,17 +4,47 @@
 
 SportStatesChatgpt is a website designed to provide quick access to daily NBA game scores and season records. Additionally, it features ChatGPT for rapid Q&A sessions.
 
+## Demo Page
+
+Visit the [demo page](https://www.hd0619-info.site/SportChatGPT/NBA/Standings) to explore SportStatesChatgpt and view NBA standings.
+
 ## Installation
 
 To set up the project, follow these steps:
 
-1. Install dependencies:
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/stanley021039/SportStatesChatgpt.git
+    ```
+
+2. **Establish Virtual Environment:**
+
+    ```bash
+    python -m venv .venv
+    source .venv/bin/activate
+    ```
+
+2. Install dependencies:
 
     ```bash
     pip install -r requirements.txt
     ```
 
-2. Set up Apache server.
+4. **Setup Apache Environment:**
+    Add the following configuration to your Apache virtual host file:
+    ```apache
+    <Location "/SportChatGPT">
+        RequestHeader set X-Script-Name "/SportChatGPT"
+        ProxyPass "http://127.0.0.1:8000"
+        ProxyPassReverse "http://127.0.0.1:8000"
+    </Location>
+    ```
+    This configuration will proxy requests to the ImageCrawler application running on `http://127.0.0.1:8000`. Adjust the `Location` directive and proxy URLs as needed based on your server setup.
+    Make sure to reload or restart Apache for the changes to take effect:
+    ```bash
+    sudo service apache2 reload
+    ```
 
 3. Run the application using Gunicorn:
 
