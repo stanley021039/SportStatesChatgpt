@@ -66,13 +66,13 @@ To set up the project, follow these steps:
 - **Description:** Provides the season standings data for the NBA.
 - **Resource:** `StandingsData`
 
-### Today's NBA Scoreboard
+### NBA Scoreboard
 
 - **Endpoint:** `/NBA/scoreboard`
 - **Description:** Shows the scoreboard for NBA games on the current day.
 - **Resource:** `TodayScoreboardPage`
 
-### Today's NBA Scoreboard Data
+### NBA Scoreboard Data
 
 - **Endpoint:** `/api/NBA/scoreboard_data`
 - **Description:** Retrieves the scoreboard data for NBA games on the specified date.
