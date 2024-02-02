@@ -1,1 +1,86 @@
-{"get": "games/", "parameters": {"date": "2024-01-26"}, "errors": [], "results": 7, "response": [{"id": 13175, "league": "standard", "season": 2023, "date": {"start": "2024-01-26T00:00:00.000Z", "end": null, "duration": null}, "stage": 2, "status": {"clock": null, "halftime": false, "short": 3, "long": "Finished"}, "periods": {"current": 4, "total": 4, "endOfPeriod": false}, "arena": {"name": "Gainbridge Fieldhouse", "city": "Indianapolis", "state": "IN", "country": null}, "teams": {"visitors": {"id": 27, "name": "Philadelphia 76ers", "nickname": "76ers", "code": "PHI", "logo": "https://upload.wikimedia.org/wikipedia/fr/4/48/76ers_2016.png"}, "home": {"id": 15, "name": "Indiana Pacers", "nickname": "Pacers", "code": "IND", "logo": "https://upload.wikimedia.org/wikipedia/fr/thumb/c/cf/Pacers_de_l%27Indiana_logo.svg/1180px-Pacers_de_l%27Indiana_logo.svg.png"}}, "scores": {"visitors": {"win": 0, "loss": 0, "series": {"win": 0, "loss": 0}, "linescore": ["25", "36", "28", "33"], "points": 122}, "home": {"win": 0, "loss": 0, "series": {"win": 0, "loss": 0}, "linescore": ["34", "39", "37", "24"], "points": 134}}, "officials": [], "timesTied": null, "leadChanges": null, "nugget": null}, {"id": 13176, "league": "standard", "season": 2023, "date": {"start": "2024-01-26T00:00:00.000Z", "end": null, "duration": null}, "stage": 2, "status": {"clock": null, "halftime": false, "short": 3, "long": "Finished"}, "periods": {"current": 4, "total": 4, "endOfPeriod": false}, "arena": {"name": "Capital One Arena", "city": "Washington", "state": "DC", "country": null}, "teams": {"visitors": {"id": 40, "name": "Utah Jazz", "nickname": "Jazz", "code": "UTA", "logo": "https://upload.wikimedia.org/wikipedia/fr/3/3b/Jazz_de_l%27Utah_logo.png"}, "home": {"id": 41, "name": "Washington Wizards", "nickname": "Wizards", "code": "WAS", "logo": "https://upload.wikimedia.org/wikipedia/fr/archive/d/d6/20161212034849%21Wizards2015.png"}}, "scores": {"visitors": {"win": 0, "loss": 0, "series": {"win": 0, "loss": 0}, "linescore": ["36", "28", "34", "25"], "points": 123}, "home": {"win": 0, "loss": 0, "series": {"win": 0, "loss": 0}, "linescore": ["29", "27", "22", "30"], "points": 108}}, "officials": [], "timesTied": null, "leadChanges": null, "nugget": null}, {"id": 13177, "league": "standard", "season": 2023, "date": {"start": "2024-01-26T00:30:00.000Z", "end": null, "duration": null}, "stage": 2, "status": {"clock": null, "halftime": false, "short": 3, "long": "Finished"}, "periods": {"current": 4, "total": 4, "endOfPeriod": false}, "arena": {"name": "Barclays Center", "city": "Brooklyn", "state": "NY", "country": null}, "teams": {"visitors": {"id": 22, "name": "Minnesota Timberwolves", "nickname": "Timberwolves", "code": "MIN", "logo": "https://upload.wikimedia.org/wikipedia/fr/thumb/d/d9/Timberwolves_du_Minnesota_logo_2017.png/200px-Timberwolves_du_Minnesota_logo_2017.png"}, "home": {"id": 4, "name": "Brooklyn Nets", "nickname": "Nets", "code": "BKN", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Brooklyn_Nets_newlogo.svg/130px-Brooklyn_Nets_newlogo.svg.png"}}, "scores": {"visitors": {"win": 0, "loss": 0, "series": {"win": 0, "loss": 0}, "linescore": ["24", "36", "21", "15"], "points": 96}, "home": {"win": 0, "loss": 0, "series": {"win": 0, "loss": 0}, "linescore": ["31", "17", "26", "20"], "points": 94}}, "officials": [], "timesTied": null, "leadChanges": null, "nugget": null}, {"id": 13178, "league": "standard", "season": 2023, "date": {"start": "2024-01-26T00:30:00.000Z", "end": null, "duration": null}, "stage": 2, "status": {"clock": null, "halftime": false, "short": 3, "long": "Finished"}, "periods": {"current": 4, "total": 4, "endOfPeriod": false}, "arena": {"name": "Kaseya Center", "city": "Miami", "state": "FL", "country": null}, "teams": {"visitors": {"id": 2, "name": "Boston Celtics", "nickname": "Celtics", "code": "BOS", "logo": "https://upload.wikimedia.org/wikipedia/fr/thumb/6/65/Celtics_de_Boston_logo.svg/1024px-Celtics_de_Boston_logo.svg.png"}, "home": {"id": 20, "name": "Miami Heat", "nickname": "Heat", "code": "MIA", "logo": "https://upload.wikimedia.org/wikipedia/fr/thumb/1/1c/Miami_Heat_-_Logo.svg/1200px-Miami_Heat_-_Logo.svg.png"}}, "scores": {"visitors": {"win": 0, "loss": 0, "series": {"win": 0, "loss": 0}, "linescore": ["42", "35", "36", "30"], "points": 143}, "home": {"win": 0, "loss": 0, "series": {"win": 0, "loss": 0}, "linescore": ["29", "35", "26", "20"], "points": 110}}, "officials": [], "timesTied": null, "leadChanges": null, "nugget": null}, {"id": 13179, "league": "standard", "season": 2023, "date": {"start": "2024-01-26T00:30:00.000Z", "end": null, "duration": null}, "stage": 2, "status": {"clock": null, "halftime": false, "short": 3, "long": "Finished"}, "periods": {"current": 4, "total": 4, "endOfPeriod": false}, "arena": {"name": "Madison Square Garden", "city": "New York", "state": "NY", "country": null}, "teams": {"visitors": {"id": 9, "name": "Denver Nuggets", "nickname": "Nuggets", "code": "DEN", "logo": "https://upload.wikimedia.org/wikipedia/fr/thumb/3/35/Nuggets_de_Denver_2018.png/180px-Nuggets_de_Denver_2018.png"}, "home": {"id": 24, "name": "New York Knicks", "nickname": "Knicks", "code": "NYK", "logo": "https://upload.wikimedia.org/wikipedia/fr/3/34/Knicks_de_NY.png"}}, "scores": {"visitors": {"win": 0, "loss": 0, "series": {"win": 0, "loss": 0}, "linescore": ["21", "20", "25", "18"], "points": 84}, "home": {"win": 0, "loss": 0, "series": {"win": 0, "loss": 0}, "linescore": ["33", "29", "36", "24"], "points": 122}}, "officials": [], "timesTied": null, "leadChanges": null, "nugget": null}, {"id": 13180, "league": "standard", "season": 2023, "date": {"start": "2024-01-26T03:00:00.000Z", "end": null, "duration": null}, "stage": 2, "status": {"clock": null, "halftime": false, "short": 3, "long": "Finished"}, "periods": {"current": 4, "total": 4, "endOfPeriod": false}, "arena": {"name": "Chase Center", "city": "San Francisco", "state": "CA", "country": null}, "teams": {"visitors": {"id": 30, "name": "Sacramento Kings", "nickname": "Kings", "code": "SAC", "logo": "https://upload.wikimedia.org/wikipedia/fr/thumb/9/95/Kings_de_Sacramento_logo.svg/1200px-Kings_de_Sacramento_logo.svg.png"}, "home": {"id": 11, "name": "Golden State Warriors", "nickname": "Warriors", "code": "GSW", "logo": "https://upload.wikimedia.org/wikipedia/fr/thumb/d/de/Warriors_de_Golden_State_logo.svg/1200px-Warriors_de_Golden_State_logo.svg.png"}}, "scores": {"visitors": {"win": 0, "loss": 0, "series": {"win": 0, "loss": 0}, "linescore": ["40", "35", "29", "30"], "points": 134}, "home": {"win": 0, "loss": 0, "series": {"win": 0, "loss": 0}, "linescore": ["32", "40", "29", "32"], "points": 133}}, "officials": [], "timesTied": null, "leadChanges": null, "nugget": null}, {"id": 13181, "league": "standard", "season": 2023, "date": {"start": "2024-01-26T03:30:00.000Z", "end": null, "duration": null}, "stage": 2, "status": {"clock": null, "halftime": false, "short": 3, "long": "Finished"}, "periods": {"current": 4, "total": 4, "endOfPeriod": false}, "arena": {"name": "crypto.com Arena", "city": "Los Angeles", "state": "CA", "country": null}, "teams": {"visitors": {"id": 6, "name": "Chicago Bulls", "nickname": "Bulls", "code": "CHI", "logo": "https://upload.wikimedia.org/wikipedia/fr/thumb/d/d1/Bulls_de_Chicago_logo.svg/1200px-Bulls_de_Chicago_logo.svg.png"}, "home": {"id": 17, "name": "Los Angeles Lakers", "nickname": "Lakers", "code": "LAL", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/220px-Los_Angeles_Lakers_logo.svg.png"}}, "scores": {"visitors": {"win": 0, "loss": 0, "series": {"win": 0, "loss": 0}, "linescore": ["32", "25", "36", "39"], "points": 132}, "home": {"win": 0, "loss": 0, "series": {"win": 0, "loss": 0}, "linescore": ["31", "42", "39", "29"], "points": 141}}, "officials": [], "timesTied": null, "leadChanges": null, "nugget": null}]}
+[
+    {
+        "date": {
+            "start": "2024-01-26T00:00:00.000Z",
+            "end": null,
+            "duration": null
+        },
+        "home_team": "Indiana Pacers",
+        "away_team": "Philadelphia 76ers",
+        "home_score": 134,
+        "away_score": 122,
+        "status": "Finished"
+    },
+    {
+        "date": {
+            "start": "2024-01-26T00:00:00.000Z",
+            "end": null,
+            "duration": null
+        },
+        "home_team": "Washington Wizards",
+        "away_team": "Utah Jazz",
+        "home_score": 108,
+        "away_score": 123,
+        "status": "Finished"
+    },
+    {
+        "date": {
+            "start": "2024-01-26T00:30:00.000Z",
+            "end": null,
+            "duration": null
+        },
+        "home_team": "Brooklyn Nets",
+        "away_team": "Minnesota Timberwolves",
+        "home_score": 94,
+        "away_score": 96,
+        "status": "Finished"
+    },
+    {
+        "date": {
+            "start": "2024-01-26T00:30:00.000Z",
+            "end": null,
+            "duration": null
+        },
+        "home_team": "Miami Heat",
+        "away_team": "Boston Celtics",
+        "home_score": 110,
+        "away_score": 143,
+        "status": "Finished"
+    },
+    {
+        "date": {
+            "start": "2024-01-26T00:30:00.000Z",
+            "end": null,
+            "duration": null
+        },
+        "home_team": "New York Knicks",
+        "away_team": "Denver Nuggets",
+        "home_score": 122,
+        "away_score": 84,
+        "status": "Finished"
+    },
+    {
+        "date": {
+            "start": "2024-01-26T03:00:00.000Z",
+            "end": null,
+            "duration": null
+        },
+        "home_team": "Golden State Warriors",
+        "away_team": "Sacramento Kings",
+        "home_score": 133,
+        "away_score": 134,
+        "status": "Finished"
+    },
+    {
+        "date": {
+            "start": "2024-01-26T03:30:00.000Z",
+            "end": null,
+            "duration": null
+        },
+        "home_team": "Los Angeles Lakers",
+        "away_team": "Chicago Bulls",
+        "home_score": 141,
+        "away_score": 132,
+        "status": "Finished"
+    }
+]

@@ -83,8 +83,20 @@ def html_request2db_NBA_today_scoreboard(db_path, json_path, date:str):
     }
     response = requests.get(url, headers=headers, params=querystring)
     data = response.json()
-    with open(json_path, 'w') as json_file:
-        json.dump(data, json_file)
+    # write json
+    simplified_data = []
+    for game in data["response"]:
+        simplified_game = {
+            "date": game["date"],
+            "home_team": game["teams"]["home"]["name"],
+            "away_team": game["teams"]["visitors"]["name"],
+            "home_score": game["scores"]["home"]["points"],
+            "away_score": game["scores"]["visitors"]["points"],
+            "status": game["status"]["long"]
+        }
+        simplified_data.append(simplified_game)
+    with open(json_path, "w") as f:
+        json.dump(simplified_data, f, indent=4)
 
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
@@ -182,7 +194,7 @@ def is_table_refresh(db_path, table_name, start, end, refresh_frequency=timedelt
         timestamp_value = row[column_names.index('timestamp')]
         timestamp_datetime = datetime.strptime(timestamp_value, "%Y-%m-%d %H:%M:%S")
         print('start', start, 'end', end, 'timestamp_value', timestamp_value, 'current_time', current_time, 'refresh_frequency', refresh_frequency)
-        if not (timestamp_datetime < end and current_time - timestamp_datetime > refresh_frequency):
+        if not (current_time > start and timestamp_datetime < end and current_time - timestamp_datetime > refresh_frequency):
             return False
     return True
 

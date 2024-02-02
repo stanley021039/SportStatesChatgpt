@@ -1,4 +1,7 @@
 GPT_resources/ChatGPT_api_key.txt
+GPT_resources/usage_count.txt
 logs/*
 .venv
+data/data_json/*
+data/databases/*
 __pycache__

@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const prevDateBtn = document.getElementById('prev-date');
     const nextDateBtn = document.getElementById('next-date');
     const currentDateSpan = document.getElementById('current-date');
+    const updateTimeElement = document.getElementById('update-time');
 
     // 初始日期
     // let currentDate = new Date('2024-01-19');
@@ -46,9 +47,9 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
                 // 处理从后端获取的数据，更新前端显示
                 updateFrontendWithData(data);
+                updateTimeElement.textContent = 'Last update: UTC+ 0 ' + data.timestamp;
             })
             .catch(error => {
                 console.error('Error fetching data from backend:', error);

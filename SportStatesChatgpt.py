@@ -14,6 +14,9 @@ from utils import html_request2db_NBA_standings, html_request2db_NBA_today_score
 app=Flask(__name__)
 app.config['SECRET_KEY'] = 'w8eg4as21dg56f'
 api = Api(app)
+api_key = open('GPT_resources/ChatGPT_api_key.txt').read()
+openai.api_key = api_key
+openai.organization = "org-J0PWE1RbQlGThBFfHT3iYmgO"
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 logging.basicConfig(level=logging.DEBUG, filename=os.path.join(BASE_DIR, "logs", "app.log"), filemode='w')
 
@@ -30,14 +33,15 @@ def ID_verify():
     current_user, exp = chech_login(token, secret_key=app.config['SECRET_KEY'])
     return {'current_user': current_user}
 
-class homeResource(Resource):
-    def get(self):
-        template_variables = {'APPLICATION_ROOT': app.config['APPLICATION_ROOT']}
-        return make_response(render_template('index.html', **template_variables))
-api.add_resource(homeResource, "/")
+# class homeResource(Resource):
+#     def get(self):
+#         template_variables = {'APPLICATION_ROOT': app.config['APPLICATION_ROOT']}
+#         return make_response(render_template('index.html', **template_variables))
+# api.add_resource(homeResource, "/")
 
 class GPTResource(Resource):
     def __init__(self):
+        self.GPT_usage_path = os.path.join(BASE_DIR, "GPT_resources/usage_count.txt")
         self.db_scoreboard_path = os.path.join(BASE_DIR, "data/databases/scoreboard.db")
         self.db_standings_path = os.path.join(BASE_DIR, "data/databases/Standings.db")
         self.template_path = os.path.join(BASE_DIR, "GPT_resources/template.json")
@@ -47,26 +51,31 @@ class GPTResource(Resource):
             self.messages = json.load(file)
 
     def post(self):
+        with open(self.GPT_usage_path, 'r+') as f:
+            number = int(f.read())
+            if number > 200:
+                return jsonify({"response": "error: GPT使用次數超過上限"})
+            f.seek(0)
+            f.write(str(number+1))
         frontpage = request.args.get('frontpage', '')
         season = request.args.get('season', '')
         date = request.args.get('date', '')
         if frontpage == 'scoreboard':
             with open(os.path.join(BASE_DIR, f"data/data_json/scoreboard_{date}.json"), 'r') as file:
                 data_prompt = json.dumps(json.load(file))
-                print(data_prompt[:10])
         elif frontpage == 'standings':
             with open(os.path.join(BASE_DIR, f"data/data_json/standings_{season}.json"), 'r') as file:
                 data_prompt = json.dumps(json.load(file))
         user_prompt = request.get_json()['text']
         self.load_prompts()
-        end_prompt = "但請用繁體中文回答，請用30字內的簡答\n"
-        user_messages = {"role": "user", "content": f'{data_prompt}\n{user_prompt}\n{end_prompt}'}
+        start_prompt = "以下問題請用70字內的繁體中文簡答\n"
+        user_messages = {"role": "user", "content": f'{start_prompt}\n{data_prompt}\n{user_prompt}'}
         self.messages.append(user_messages)
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=self.messages,
             temperature=0.7,
-            max_tokens=100
+            max_tokens=200
         )
         text_response = response.choices[0].message.content
         self.messages.append({"role": "assistant", "content": text_response})
@@ -130,8 +139,8 @@ def get_scoreboard_data(date):
     column_names = ['Game Status', 'Home Team', 'Score(Home)', 'Score(Away)', 'Away Team']
     year, month, day = date.split('-')
     date_start = datetime(year=int(year), month=int(month), day=int(day))
-    if datetime.now() < date_start:
-        return {'data': [], 'column_names': column_names}
+    # if datetime.now() < date_start:
+    #     return {'data': [], 'column_names': column_names}
     db_path = os.path.join(BASE_DIR, "data/databases/scoreboard.db")
     json_path = os.path.join(BASE_DIR, f"data/data_json/scoreboard_{date}.json")
     html_request2db_NBA_today_scoreboard(db_path=db_path, json_path=json_path, date=date)
@@ -141,14 +150,15 @@ def get_scoreboard_data(date):
     cursor = conn.cursor()
     cursor.execute(f'SELECT gameStatusText, homeTeamName, homeTeamScore, awayTeamScore, awayTeamName FROM {table_name}')
     data = cursor.fetchall()
+    cursor.execute(f'SELECT timestamp FROM {table_name} LIMIT 1')
+    timestamp_value = cursor.fetchall()[0][0]
     conn.close()
 
-    return {'data': data, 'column_names': column_names}
+    return {'data': data, 'timestamp': timestamp_value, 'column_names': column_names}
 
 class TodayScoreboardPage(Resource):
     def get(self):
         date = get_date()
-        # data = get_scoreboard_data(date)
         return make_response(render_template('scoreboard.html', todate=date, **app.config))
 
 class TodayScoreboardData(Resource):
@@ -297,7 +307,4 @@ api.add_resource(LoginResource, "/user/login")
 
 
 if __name__ == '__main__':
-   api_key = open('GPT_resources/ChatGPT_api_key.txt').read()
-   openai.api_key = api_key
-   openai.organization = "org-J0PWE1RbQlGThBFfHT3iYmgO"
    app.run(host='0.0.0.0', port=8000)

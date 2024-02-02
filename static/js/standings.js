@@ -44,7 +44,6 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(data => {
                 // 处理从后端获取的数据，更新前端显示
-                console.log(data)
                 updateFrontendWithData(data);
             })
             .catch(error => {
